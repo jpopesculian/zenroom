@@ -695,7 +695,7 @@ method_handlers["textDocument/formatting"] = function(params, id)
 		indent = string.rep(" ", params.options.tabSize)
 	end
 
-	local format = require 'lua-lsp.formatting'
+	local format = require 'lsp_formatting'
 	local new = format.format(doc.text,{indent = indent})
 
 	rpc.respond(id, {
@@ -712,7 +712,7 @@ method_handlers["textDocument/rangeFormatting"] = function(params, id)
 	if params.options.insertSpaces then
 		indent = string.rep(" ", params.options.tabSize)
 	end
-	local format = require 'lua-lsp.formatting'
+	local format = require 'lsp_formatting'
 	local new = format.format(doc.text,{indent = indent})
 
 	local _, _, sidx = line_for(doc, params.range.start)

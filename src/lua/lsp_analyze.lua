@@ -2,8 +2,9 @@
 local parser       = require 'lsp_parser'
 local log          = require 'lsp_log'
 local rpc          = require 'lsp_rpc'
-local ok, luacheck = pcall(require, 'luacheck')
-if not ok then luacheck = nil end
+-- local ok, luacheck = pcall(require, 'luacheck')
+-- if not ok then luacheck = nil end
+luacheck = nil
 
 local analyze = {}
 
@@ -75,7 +76,7 @@ end
 local function gen_scopes(len, ast)
 	local scopes = {setmetatable({},{pos=0, posEnd=len+1, origin="file"})}
 	for _, builtin in ipairs(Config.builtins) do
-		local info = require('lua-lsp.data.'..builtin)
+		local info = require('lsp_data_'..builtin)
 		if info.global then
 			translate_luacomplete(scopes[1], info.global)
 		end
@@ -661,8 +662,8 @@ end
 
 local function add_types(new_types)
 	for k, v in pairs(new_types) do
-		Types[k] = {tag="Table", scope = {}}
-		translate_luacomplete(Types[k].scope, v)
+		  Types[k] = {tag="Table", scope = {}}
+		  translate_luacomplete(Types[k].scope, v)
 	end
 end
 
@@ -690,7 +691,7 @@ function analyze.load_completerc(root)
 			end
 
 			for _, builtin in ipairs(Config.builtins) do
-				local info = require('lua-lsp.data.'..builtin)
+				local info = require('lsp_data_'..builtin)
 				if info.namedTypes then
 					add_types(info.namedTypes)
 				end
@@ -708,6 +709,11 @@ function analyze.load_completerc(root)
 			log.warning(".luacompleterc: %s", tostring(err))
 		end
 	end
+end
+
+local info = require('lsp_data_lua53')
+if info.namedTypes then
+   add_types(info.namedTypes)
 end
 
 return analyze
