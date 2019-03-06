@@ -187,4 +187,12 @@ void (* const IV[])(void) =
 
 
 };
+
+void main(void)
+{
+}
+
+
 #endif
+
+
