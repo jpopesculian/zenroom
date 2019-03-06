@@ -30,6 +30,7 @@
 
 extern int zen_exec_script(zenroom_t *Z, const char *script);
 
+#ifdef LIBRARY
 int repl_read(lua_State *lua) {
 	char line[MAX_STRING];
 	size_t len =0;
@@ -79,3 +80,4 @@ int repl_loop(zenroom_t *Z) {
 	return(ret);
 }
 
+#endif

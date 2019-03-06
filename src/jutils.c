@@ -157,16 +157,3 @@ void warning(lua_State *L, const char *format, ...) {
 }
 
 
-#undef ARCH_X86
-double dtime() {
-#ifdef ARCH_X86
-  double x;
-  __asm__ volatile (".byte 0x0f, 0x31" : "=A" (x));
-  return x;
-#else
-  struct timeval mytv;
-  gettimeofday(&mytv,NULL);
-  return((double)mytv.tv_sec+1.0e-6*(double)mytv.tv_usec);
-#endif
-}
-
