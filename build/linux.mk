@@ -29,8 +29,8 @@ android-arm android-x86: apply-patches lua53 milagro embed-lua lpeglabel
 		make -C src $@
 
 cortex-arm:	apply-patches lua53 milagro embed-lua lpeglabel
-	CC=${gcc} AR="${ar}"  CFLAGS="${cflags}" LDFLAGS="${ldflags}" LDADD="${ldadd}" \
-		make -C src musl
+	CC=${gcc} AR="${ar}" OBJCOPY="${objcopy}" CFLAGS="${cflags}" LDFLAGS="${ldflags}" LDADD="${ldadd}" \
+	make -C src cortex-arm
 
 linux-debug: cflags := -O1 -ggdb ${cflags_protection} -DDEBUG=1
 linux-debug: linux
