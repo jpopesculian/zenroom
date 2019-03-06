@@ -46,7 +46,7 @@ ld := x86_64-w64-mingw32-ld
 system := Windows
 cflags := ${cflags_protection} -D'ARCH=\"WIN\"' -DARCH_WIN -O3 -Wall -Wextra -pedantic -std=gnu99
 ldflags := -L/usr/x86_64-w64-mingw32/lib
-ldadd += ${ldadd} -l:libm.a -l:libpthread.a -lssp
+ldadd += -l:libm.a -l:libpthread.a -lssp
 endif
 
 ifneq (,$(findstring cyg,$(MAKECMDGOALS)))
@@ -56,7 +56,7 @@ ranlib := ranlib
 ld := ld
 system := Windows
 cflags := ${cflags_protection} -D'ARCH=\"WIN\"' -DARCH_WIN -O3 -Wall -Wextra -pedantic -std=gnu99
-ldadd += ${ldadd} -l:libm.a -l:libpthread.a -lssp
+ldadd += -l:libm.a -l:libpthread.a -lssp
 endif
 
 
@@ -66,6 +66,7 @@ ar  := arm-none-eabi-ar
 ranlib := arm-none-eabi-ranlib
 ld := arm-none-eabi-ld
 system := Generic
+cflags_protection := ""
 cflags := ${cflags_protection} -DARCH_CORTEX -O3 -Wall -Wextra -pedantic -std=gnu99 -mcpu=cortex-m4 -mthumb -mlittle-endian -mthumb-interwork
 milagro_cmake_flags += -DCMAKE_SYSTEM_PROCESSOR="arm" -DCMAKE_CROSSCOMPILING=1 -DCMAKE_C_COMPILER_WORKS=1
 endif
