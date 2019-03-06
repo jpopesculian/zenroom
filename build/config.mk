@@ -60,6 +60,16 @@ ldadd += ${ldadd} -l:libm.a -l:libpthread.a -lssp
 endif
 
 
+ifneq (,$(findstring cortex,$(MAKECMDGOALS)))
+gcc := arm-none-eabi-gcc
+ar  := arm-none-eabi-ar
+ranlib := arm-none-eabi-ranlib
+ld := arm-none-eabi-ld
+system := Linux
+cflags := ${cflags_protection} -DARCH_CORTEX -O3 -Wall -Wextra -pedantic -std=gnu99 -mcpu=cortex-m7
+ldadd += ${ldadd} -l:libm.a -l:libpthread.a -lssp
+endif
+
 
 ifneq (,$(findstring musl,$(MAKECMDGOALS)))
 gcc := musl-gcc
