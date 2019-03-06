@@ -74,8 +74,12 @@ static time_t l_checktime (lua_State *L, int arg) {
 
 #endif				/* } */
 
+#if defined(LUA_BAREBONE)
+#define l_gmtime   1
+#define lua_tmpnam 1
+#endif
 
-#if !defined(l_gmtime)		/* { */
+#if !defined(l_gmtime) /* { */
 /*
 ** By default, Lua uses gmtime/localtime, except when POSIX is available,
 ** where it uses gmtime_r/localtime_r
@@ -136,57 +140,10 @@ static time_t l_checktime (lua_State *L, int arg) {
 /* }================================================================== */
 
 
-
-
-static int os_execute (lua_State *L) {
-  const char *cmd = luaL_optstring(L, 1, NULL);
-
-#ifndef NO_SYSTEM
-  int stat = system(cmd);
-  if (cmd != NULL)
-    return luaL_execresult(L, stat);
-  else {
-    lua_pushboolean(L, stat);  /* true if there is a shell */
-    return 1;
-  }
-#else
-  return 1;
-#endif
-}
-
-
-static int os_remove (lua_State *L) {
-  const char *filename = luaL_checkstring(L, 1);
-  return luaL_fileresult(L, remove(filename) == 0, filename);
-}
-
-
-static int os_rename (lua_State *L) {
-  const char *fromname = luaL_checkstring(L, 1);
-  const char *toname = luaL_checkstring(L, 2);
-  return luaL_fileresult(L, rename(fromname, toname) == 0, NULL);
-}
-
-
-// static int os_tmpname (lua_State *L) {
-//   char buff[LUA_TMPNAMBUFSIZE];
-//   int err;
-//   lua_tmpnam(buff, err);
-//   if (err)
-//     return luaL_error(L, "unable to generate a unique filename");
-//   lua_pushstring(L, buff);
-//   return 1;
-// }
-
+#if !defined(LUA_BAREBONE)
 
 static int os_getenv (lua_State *L) {
   lua_pushstring(L, getenv(luaL_checkstring(L, 1)));  /* if NULL push nil */
-  return 1;
-}
-
-
-static int os_clock (lua_State *L) {
-  lua_pushnumber(L, ((lua_Number)clock())/(lua_Number)CLOCKS_PER_SEC);
   return 1;
 }
 
@@ -283,7 +240,6 @@ static const char *checkoption (lua_State *L, const char *conv,
 
 /* maximum size for an individual 'strftime' item */
 #define SIZETIMEFMT	250
-
 
 static int os_date (lua_State *L) {
   size_t slen;
@@ -401,6 +357,15 @@ static const luaL_Reg syslib[] = {
   {NULL, NULL}
 };
 
+#else
+
+
+#pragma message("LUA build BAREBONE")
+static const luaL_Reg syslib[] = {
+	{NULL, NULL}
+};
+
+#endif
 /* }====================================================== */
 
 
