@@ -130,6 +130,7 @@ static int randombytes_cortexm(void *buf, size_t n)
 {
     /* Certified to be random by fair dice roll */
     memset(buf, 4, n);
+    return n;
 }
 
 #endif
