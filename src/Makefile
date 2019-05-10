@@ -33,7 +33,7 @@ SOURCES := \
 	zen_fp12.o zen_random.o zen_hash.o \
 	zen_ecdh.o zen_ecdh_factory.o \
 	randombytes.o \
-	cortex_m.o
+	cortex_m.o myclib.o
 
 all: shared
 

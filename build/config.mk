@@ -86,8 +86,10 @@ system := Linux
 endif
 
 ifneq (,$(findstring linux,$(MAKECMDGOALS)))
-cflags := ${cflags} -fPIC ${cflags_protection} -D'ARCH=\"LINUX\"' -DARCH_LINUX
-ldflags := -lm -lpthread
+cflags_sodium := -I/usr/local/include
+ldflags_sodium := -L/usr/local/lib -lsodium
+cflags := ${cflags} -fPIC ${cflags_protection} ${cflags_sodium} -D'ARCH=\"LINUX\"' -DARCH_LINUX
+ldflags := -lm -lpthread ${ldflags_sodium}
 system := Linux
 endif
 

@@ -53,6 +53,7 @@ extern int luaopen_fp12(lua_State *L);
 extern int luaopen_big(lua_State *L);
 extern int luaopen_rng(lua_State *L);
 extern int luaopen_hash(lua_State *L);
+extern int luaopen_myclib(lua_State *L);
 
 luaL_Reg lualibs[] = {
 	{LUA_LOADLIBNAME, luaopen_package},
@@ -176,6 +177,8 @@ int zen_require(lua_State *L) {
 		luaL_requiref(L, s, lua_cjson_safe_new, 1); }
 	else if(strcasecmp(s, "msgpack")  ==0) {
 		luaL_requiref(L, s, luaopen_cmsgpack_safe, 1); }
+	else if(strcasecmp(s, "myclib")  ==0) {
+		luaL_requiref(L, s, luaopen_myclib, 1); }
 	else {
 		// shall we bail out and abort execution here?
 		warning(L, "required extension not found: %s",s);
