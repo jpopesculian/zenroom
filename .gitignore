@@ -29,6 +29,8 @@ build/python3
 build/*go
 build/*java
 build/*x86
+build/swig_wrap.c
+**/*__pycache__*
 # generated files by milagro
 lib/milagro-crypto-c/AMCLConfig.cmake
 lib/milagro-crypto-c/AMCLConfigVersion.cmake
